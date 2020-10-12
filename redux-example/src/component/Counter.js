@@ -1,17 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
+import {connect} from 'react-redux'
+import { addCount, minusCount } from '../redux/action/action'
 
-const Counter = () => {
-  const [count, setCount] = useState(0)
-
-  const addCount = () => {
-    const result = count + 1
-    setCount(result)
-  }
-
-  const decreaseCount = () => {
-    const result = count - 1
-    setCount(result)
-  }
+const Counter = (props) => {
+  const{count, addCount, minusCount} = props
 
   return (
     <div
@@ -22,11 +14,22 @@ const Counter = () => {
         justifyContent: 'center',
       }}
     >
-      <button onClick={decreaseCount}>-</button>
+      <button onClick={(e)=>minusCount()}>-</button>
       <span style={{ margin: '1em' }}>{count}</span>
-      <button onClick={addCount}>+</button>
+      <button onClick={(e)=>addCount()}>+</button>
     </div>
   )
 }
 
-export default Counter
+const mapStateToProps=(state)=>{
+  return {
+    count:state.count
+  }
+}
+
+const mapDispatchToProps={
+  addCount:addCount,
+  minusCount:minusCount
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
